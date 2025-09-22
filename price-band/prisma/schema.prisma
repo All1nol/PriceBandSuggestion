@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Solicitation {
+  id           String           @id @default(cuid())
+  filename     String
+  filePath     String
+  status       String           @default("uploaded") // uploaded, extracted, suggested
+  rawText      String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  extractedData ExtractedData?
+  suggestions   PriceSuggestion[]
+  auditLogs     AuditLog[]
+}
+
+model ExtractedData {
+  id              String       @id @default(cuid())
+  solicitationId  String       @unique
+  nsn             String?
+  quantity        Int?
+  deliveryDays    Int?
+  description     String?
+  confidenceScore Float        @default(0.0)
+  createdAt       DateTime     @default(now())
+  solicitation    Solicitation @relation(fields: [solicitationId], references: [id])
+}
+
+model PriceSuggestion {
+  id                String       @id @default(cuid())
+  solicitationId    String
+  priceLow          Float
+  priceHigh         Float
+  confidencePercent Int
+  rationale         String       // JSON array
+  baseCost          Float
+  marginFactor      Float
+  createdAt         DateTime     @default(now())
+  solicitation      Solicitation @relation(fields: [solicitationId], references: [id])
+}
+
+model AuditLog {
+  id             String       @id @default(cuid())
+  solicitationId String
+  action         String       // uploaded, extracted, suggested, edited
+  details        String       // JSON string
+  createdAt      DateTime     @default(now())
+  solicitation   Solicitation @relation(fields: [solicitationId], references: [id])
+}

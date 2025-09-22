@@ -1,0 +1,38 @@
+# Node / monorepo
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Next.js
+.next/
+out/
+.vercel/
+.turbo/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+
+# Coverage / build
+coverage/
+dist/
+
+# Prisma / SQLite artifacts
+prisma/*.db
+prisma/*.db-journal
+prisma/*.sqlite
+
+# File uploads (keep placeholder)
+public/uploads/*
+!public/uploads/.gitkeep
+
+

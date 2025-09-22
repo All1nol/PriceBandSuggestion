@@ -29,6 +29,9 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/.next/standalone ./standalone
 COPY --from=builder /app/.next/static ./standalone/.next/static
 
+## Ensure runtime can resolve dynamic requires (e.g., pdf-parse)
+COPY --from=builder /app/node_modules ./standalone/node_modules
+
 EXPOSE 3000
 
 VOLUME ["/app/prisma", "/app/public/uploads"]

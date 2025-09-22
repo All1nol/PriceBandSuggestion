@@ -7,9 +7,18 @@ export type ExtractedFields = {
 };
 
 export async function extractFromPdfBuffer(buffer: Buffer): Promise<ExtractedFields> {
-	const { default: pdfParse } = await import("pdf-parse");
-	const parsed = await pdfParse(buffer);
-	const text = parsed.text || "";
+	let text = "";
+	try {
+		// Use CommonJS require at runtime to avoid Turbopack accidentally bundling
+		// pdf-parse example/test references in production builds
+		const { createRequire } = await import("module");
+		const requireCjs = createRequire(import.meta.url);
+		const pdfParse: (b: Buffer) => Promise<{ text: string }> = requireCjs("pdf-parse");
+		const parsed = await pdfParse(buffer);
+		text = parsed.text || "";
+	} catch (_err) {
+		text = "";
+	}
 
 	const nsnMatch = text.match(/\b(\d{4}-\d{2}-\d{3}-\d{4})\b/);
 	const quantityMatch = text.match(/\bqty\s*[:=]?\s*(\d{1,7})\b/i) || text.match(/\bquantity\s*[:=]?\s*(\d{1,7})\b/i);

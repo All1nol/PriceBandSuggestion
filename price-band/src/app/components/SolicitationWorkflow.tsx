@@ -78,7 +78,7 @@ export default function SolicitationWorkflow() {
 				<h2 className="text-lg font-semibold mb-3">2. Extract Fields</h2>
 				<button disabled={!id || busy} onClick={extract} className="bg-blue-600 text-white px-3 py-2 rounded disabled:opacity-50">Extract</button>
 				{extracted && (
-					<pre className="mt-3 whitespace-pre-wrap break-words text-sm bg-gray-100 p-2 rounded">{JSON.stringify(extracted, null, 2)}</pre>
+					<pre className="mt-3 whitespace-pre-wrap break-words text-sm bg-gray-900 text-gray-100 border border-white/10 p-2 rounded overflow-auto">{JSON.stringify(extracted, null, 2)}</pre>
 				)}
 			</section>
 
@@ -86,7 +86,7 @@ export default function SolicitationWorkflow() {
 				<h2 className="text-lg font-semibold mb-3">3. Price Suggestion</h2>
 				<button disabled={!id || busy} onClick={suggest} className="bg-green-600 text-white px-3 py-2 rounded disabled:opacity-50">Suggest Price Band</button>
 				{suggestion && (
-					<pre className="mt-3 whitespace-pre-wrap break-words text-sm bg-gray-100 p-2 rounded">{JSON.stringify(suggestion, null, 2)}</pre>
+					<pre className="mt-3 whitespace-pre-wrap break-words text-sm bg-gray-900 text-gray-100 border border-white/10 p-2 rounded overflow-auto">{JSON.stringify(suggestion, null, 2)}</pre>
 				)}
 			</section>
 

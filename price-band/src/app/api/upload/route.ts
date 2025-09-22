@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 		const timestamp = Date.now();
 		const safeName = file.name.replace(/[^a-z0-9_.-]/gi, "_");
 		const filePath = path.join(uploadsDir, `${timestamp}-${safeName}`);
-		fs.writeFileSync(filePath, buffer);
+		fs.writeFileSync(filePath, buffer);    // for performance, we can use   fs.promises.writeFile instead
 
 		const created = await prisma.solicitation.create({
 			data: {

@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
 		const created = await prisma.solicitation.create({ data: { filename, filePath, status: "uploaded" } });
 		return Response.json({ id: created.id });
 	} catch (error) {
+		console.error(error);
 		return Response.json({ error: "Failed to create solicitation" }, { status: 500 });
 	}
 }

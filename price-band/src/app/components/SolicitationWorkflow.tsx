@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import type { ExtractedFields } from "@/app/lib/services/extraction";
+import type { PriceSuggestion } from "@/app/lib/services/pricing";
 
 export default function SolicitationWorkflow() {
 	const [id, setId] = useState<string | null>(null);
-	const [extracted, setExtracted] = useState<any>(null);
-	const [suggestion, setSuggestion] = useState<any>(null);
+	const [extracted, setExtracted] = useState<ExtractedFields | null>(null);
+	const [suggestion, setSuggestion] = useState<PriceSuggestion | null>(null);
 	const [busy, setBusy] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -22,8 +24,8 @@ export default function SolicitationWorkflow() {
 			setId(data.id);
 			setExtracted(null);
 			setSuggestion(null);
-		} catch (err: any) {
-			setError(err.message);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Upload failed");
 		} finally {
 			setBusy(false);
 		}
@@ -38,8 +40,8 @@ export default function SolicitationWorkflow() {
 			const data = await res.json();
 			if (!res.ok) throw new Error(data.error || "Extraction failed");
 			setExtracted(data.extracted);
-		} catch (err: any) {
-			setError(err.message);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Extraction failed");
 		} finally {
 			setBusy(false);
 		}
@@ -54,8 +56,8 @@ export default function SolicitationWorkflow() {
 			const data = await res.json();
 			if (!res.ok) throw new Error(data.error || "Suggestion failed");
 			setSuggestion(data.suggestion);
-		} catch (err: any) {
-			setError(err.message);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Suggestion failed");
 		} finally {
 			setBusy(false);
 		}

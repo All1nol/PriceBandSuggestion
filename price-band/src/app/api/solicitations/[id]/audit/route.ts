@@ -4,10 +4,11 @@ import prisma from "@/app/lib/db";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(_request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
 	try {
+		const { id } = await context.params;
 		const logs = await prisma.auditLog.findMany({
-			where: { solicitationId: params.id },
+			where: { solicitationId: id },
 			orderBy: { createdAt: "desc" },
 		});
 		return Response.json({ logs });

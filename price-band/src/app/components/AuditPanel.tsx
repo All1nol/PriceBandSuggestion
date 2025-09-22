@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 
+type AuditLog = {
+	id: string;
+	solicitationId: string;
+	action: string;
+	details: string;
+	createdAt: string;
+};
+
 export default function AuditPanel({ id }: { id: string | null }) {
-	const [logs, setLogs] = useState<any[]>([]);
+	const [logs, setLogs] = useState<AuditLog[]>([]);
 	useEffect(() => {
 		let active = true;
 		async function load() {

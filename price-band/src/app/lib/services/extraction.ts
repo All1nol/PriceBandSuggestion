@@ -1,5 +1,3 @@
-import pdfParse from "pdf-parse";
-
 export type ExtractedFields = {
 	nsn?: string;
 	quantity?: number;
@@ -9,6 +7,7 @@ export type ExtractedFields = {
 };
 
 export async function extractFromPdfBuffer(buffer: Buffer): Promise<ExtractedFields> {
+	const { default: pdfParse } = await import("pdf-parse");
 	const parsed = await pdfParse(buffer);
 	const text = parsed.text || "";
 

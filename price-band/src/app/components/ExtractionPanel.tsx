@@ -1,4 +1,6 @@
-export default function ExtractionPanel({ extracted }: { extracted: any }) {
+import type { ExtractedFields } from "@/app/lib/services/extraction";
+
+export default function ExtractionPanel({ extracted }: { extracted: ExtractedFields | null }) {
 	if (!extracted) return null;
 	return (
 		<div className="border rounded p-3 text-sm">

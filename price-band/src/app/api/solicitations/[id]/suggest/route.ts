@@ -5,9 +5,10 @@ import { calculatePriceBand } from "@/app/lib/services/pricing";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(_request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
 	try {
-		const solicitation = await prisma.solicitation.findUnique({ where: { id: params.id } });
+		const { id } = await context.params;
+		const solicitation = await prisma.solicitation.findUnique({ where: { id } });
 		if (!solicitation) return Response.json({ error: "Not found" }, { status: 404 });
 
 		const extracted = await prisma.extractedData.findUnique({ where: { solicitationId: solicitation.id } });
